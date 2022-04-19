@@ -56,6 +56,8 @@ def starting_train(train_dataset, val_dataset, model, hyperparameters, n_eval):
 
 
             # Periodically evaluate our model + log to Tensorboard
+            #training data gives model actual weights
+            #validataion data is data the model hasn't seen yet ("real world") to better represent how the model does realistically
             if step % n_eval == 0:
                 # TODO:
                 # Compute training loss and accuracy.
@@ -96,4 +98,7 @@ def evaluate(val_loader, model, loss_fn):
 
     TODO!
     """
+    model.eval() #this disables gradient computation automagically
+    
+
     pass

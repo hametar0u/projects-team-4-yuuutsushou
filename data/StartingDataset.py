@@ -1,4 +1,6 @@
 import torch
+from torchvision import transforms
+from PIL import Image
 
 
 class StartingDataset(torch.utils.data.Dataset):
@@ -7,13 +9,21 @@ class StartingDataset(torch.utils.data.Dataset):
     """
 
     def __init__(self):
-        pass
+        self.images = []
+        f = open("../cassava-leaf-disease-classification/train.csv", 'r')
+        tensor_converter = transforms.ToTensor()
+        for line in f[1:]:
+            elems = line.split(',')
+            file = elems[0]
+            label = elems[1]
+            img = Image.open("../cassava-leaf-disease-classification/train_images/" + file)
+            tensor = tensor_converter(img)
+            self.images.append((tensor, label))
+        f.close()
+        
 
     def __getitem__(self, index):
-        inputs = torch.zeros([3, 224, 224])
-        label = 0
-
-        return inputs, label
+        return self.images[index]
 
     def __len__(self):
-        return 10000
+        return len(self.images)

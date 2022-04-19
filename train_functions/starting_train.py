@@ -99,6 +99,10 @@ def evaluate(val_loader, model, loss_fn):
     TODO!
     """
     model.eval() #this disables gradient computation automagically
-    
-
-    pass
+    counter = 1
+    for batch in val_loader:
+        images, labels = batch
+        outputs = model(images).argmax()
+        print(f"Batch {counter}: Accuracy - {compute_accuracy(outputs, labels) * 100}%, Loss - {loss_fn(outputs, labels)}")
+        counter += 1
+        

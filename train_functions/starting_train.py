@@ -3,6 +3,8 @@ import torch.nn as nn
 import torch.optim as optim
 from tqdm import tqdm
 
+from ../networks/StartingNetwork.py import StartingNetwork
+
 
 def starting_train(train_dataset, val_dataset, model, hyperparameters, n_eval):
     """
@@ -31,19 +33,34 @@ def starting_train(train_dataset, val_dataset, model, hyperparameters, n_eval):
     optimizer = optim.Adam(model.parameters())
     loss_fn = nn.CrossEntropyLoss()
 
+    model = StartingNetwork()
+
     step = 0
     for epoch in range(epochs):
         print(f"Epoch {epoch + 1} of {epochs}")
 
+        losses = []
+        model.train() #tells your model that you are training the model
+
         # Loop over each batch in the dataset
         for batch in tqdm(train_loader):
             # TODO: Backpropagation and gradient descent
+            batch_inputs, batch_labels = batch
+            optimizer.zero_grad() #PyTorch accumulates the gradients on subsequent backward passes. Because of this, when you start your training loop, ideally you should zero out the gradients so that you do the parameter update correctly. Otherwise, the gradient would be a combination of the old gradient, which you have already used to update your model parameters, and the newly-computed gradient
+            batch_outputs = model(batch_inputs)
+            loss = loss_fn(batch_outputs, batch_labels)
+            loss.backward()
+            losses.append(loss)
+            optimizer.step()
+
+
 
             # Periodically evaluate our model + log to Tensorboard
             if step % n_eval == 0:
                 # TODO:
                 # Compute training loss and accuracy.
-                # Log the results to Tensorboard.
+                # Log the results to Tensorboard. ???
+                compute_accuracy(batch_outputs, batch_labels)
 
                 # TODO:
                 # Compute validation loss and accuracy.

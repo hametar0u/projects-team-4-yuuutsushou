@@ -99,10 +99,12 @@ def evaluate(val_loader, model, loss_fn):
     TODO!
     """
     model.eval() #this disables gradient computation automagically
-    counter = 1
+    accuracies = []
+    losses = []
     for batch in val_loader:
         images, labels = batch
-        outputs = model(images).argmax()
-        print(f"Batch {counter}: Accuracy - {compute_accuracy(outputs, labels) * 100}%, Loss - {loss_fn(outputs, labels)}")
-        counter += 1
+        outputs = model(images).argmax(axis=1)  # axis does seomtghing
+        accuracies.append(compute_accuracy(outputs, labels) * 100)
+        losses.append(loss_fn(outputs, labels))
+    print(f"Results: Accuracy - {sum(accuracies) / len(accuracies)}%, Loss - {sum(losses) / len(losses)}")
         

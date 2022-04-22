@@ -2,6 +2,7 @@ import torch
 import torch.nn as nn
 import torch.optim as optim
 from tqdm import tqdm
+from networks.DumbNetwork import CNN
 
 
 def starting_train(train_dataset, val_dataset, model, hyperparameters, n_eval):
@@ -31,7 +32,7 @@ def starting_train(train_dataset, val_dataset, model, hyperparameters, n_eval):
     optimizer = optim.Adam(model.parameters())
     loss_fn = nn.CrossEntropyLoss()
 
-    model = StartingNetwork()
+    model = CNN()
 
     step = 0
     for epoch in range(epochs):
@@ -70,7 +71,7 @@ def starting_train(train_dataset, val_dataset, model, hyperparameters, n_eval):
 
             step += 1
 
-        print()
+        # print()
 
 
 def compute_accuracy(outputs, labels):

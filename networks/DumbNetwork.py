@@ -51,7 +51,7 @@ class CNN(nn.Module):
         self.pool2 = nn.MaxPool2d(2, 2)
         # output dim: 16x8x8
         self.flat = nn.Flatten()
-        self.d1 = nn.Linear(16*8*8, 120)
+        self.d1 = nn.Linear(480000, 120)  # Behold, the DNN - Dumb Neural Network
         self.d2 = nn.Linear(120, 84)
         self.d3 = nn.Linear(84, 10)
         

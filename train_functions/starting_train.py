@@ -42,7 +42,6 @@ def starting_train(train_dataset, val_dataset, model, hyperparameters, n_eval):
 
         # Loop over each batch in the dataset
         for batch in tqdm(train_loader):
-            # TODO: Backpropagation and gradient descent
             batch_inputs, batch_labels = batch
             optimizer.zero_grad() #PyTorch accumulates the gradients on subsequent backward passes. Because of this, when you start your training loop, ideally you should zero out the gradients so that you do the parameter update correctly. Otherwise, the gradient would be a combination of the old gradient, which you have already used to update your model parameters, and the newly-computed gradient
             batch_outputs = model(batch_inputs)
@@ -60,7 +59,8 @@ def starting_train(train_dataset, val_dataset, model, hyperparameters, n_eval):
                 # TODO:
                 # Compute training loss and accuracy.
                 # Log the results to Tensorboard. ???
-                compute_accuracy(batch_outputs, batch_labels)
+                training_accuracy = compute_accuracy(batch_outputs, batch_labels)
+                print(f"Results: Accuracy - {training_accuracy * 100}%, Loss - {sum(losses) / len(losses)}")
 
                 # TODO:
                 # Compute validation loss and accuracy.
@@ -101,7 +101,7 @@ def evaluate(val_loader, model, loss_fn):
     losses = []
     for batch in val_loader:
         images, labels = batch
-        outputs = model(images).argmax(axis=1)  # axis does seomtghing
+        outputs = model(images).argmax(axis=1)  # axis does squishes the 2d tensor of probability vectors into 1d tensor
         accuracies.append(compute_accuracy(outputs, labels) * 100)
         losses.append(loss_fn(outputs, labels))
     print(f"Results: Accuracy - {sum(accuracies) / len(accuracies)}%, Loss - {sum(losses) / len(losses)}")

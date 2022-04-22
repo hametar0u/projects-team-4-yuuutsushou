@@ -10,16 +10,15 @@ class StartingDataset(torch.utils.data.Dataset):
 
     def __init__(self):
         self.images = []
-        f = open("../cassava-leaf-disease-classification/train.csv", 'r')
-        tensor_converter = transforms.ToTensor()
-        for line in f[1:7]:
-            elems = line.split(',')
-            file = elems[0]
-            label = elems[1]
-            img = Image.open("../cassava-leaf-disease-classification/train_images/" + file)
-            tensor = tensor_converter(img)
-            self.images.append((tensor, label))
-        f.close()
+        with open("cassava-leaf-disease-classification/train.csv", "r") as f:
+            tensor_converter = transforms.ToTensor()
+            for line in f[1:7]:
+                elems = line.split(',')
+                file = elems[0]
+                label = elems[1]
+                img = Image.open("../cassava-leaf-disease-classification/train_images/" + file)
+                tensor = tensor_converter(img)
+                self.images.append((tensor, label))
         
 
     def __getitem__(self, index):

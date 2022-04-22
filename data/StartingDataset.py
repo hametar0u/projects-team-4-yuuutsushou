@@ -12,7 +12,7 @@ class StartingDataset(torch.utils.data.Dataset):
         self.images = []
         f = open("../cassava-leaf-disease-classification/train.csv", 'r')
         tensor_converter = transforms.ToTensor()
-        for line in f[1:]:
+        for line in f[1:7]:
             elems = line.split(',')
             file = elems[0]
             label = elems[1]
@@ -27,3 +27,4 @@ class StartingDataset(torch.utils.data.Dataset):
 
     def __len__(self):
         return len(self.images)
+

@@ -3,8 +3,6 @@ import torch.nn as nn
 import torch.optim as optim
 from tqdm import tqdm
 
-from ../networks/StartingNetwork.py import StartingNetwork
-
 
 def starting_train(train_dataset, val_dataset, model, hyperparameters, n_eval):
     """

@@ -40,7 +40,6 @@ def starting_train(train_dataset, val_dataset, model, hyperparameters, n_eval):
 
         losses = []
         model.train() #tells your model that you are training the model
-
         # Loop over each batch in the dataset
         for batch in tqdm(train_loader):
             batch_inputs, batch_labels = batch
@@ -48,11 +47,12 @@ def starting_train(train_dataset, val_dataset, model, hyperparameters, n_eval):
             batch_outputs = model(batch_inputs)
             # print(type(batch_labels))
             # print(batch_labels)
-            loss = loss_fn(batch_outputs, torch.tensor(batch_labels))
+            loss = loss_fn(batch_outputs, batch_labels.clone().detach())
+            batch_outputs = batch_outputs.argmax(axis=1)
+            print(batch_outputs)
             loss.backward()
             losses.append(loss)
             optimizer.step()
-
 
 
             # Periodically evaluate our model + log to Tensorboard
@@ -104,12 +104,14 @@ def evaluate(val_loader, model, loss_fn):
     losses = []
     for batch in val_loader:
         images, labels = batch
-        outputs = model(images).argmax(axis=1)  # axis does squishes the 2d tensor of probability vectors into 1d tensor
+        outputs = model(images)  # axis does squishes the 2d tensor of probability vectors into 1d tensor
         outputs = outputs.to(torch.float)
-        labels = labels.to(torch.float)
-        print(type(outputs))
-        accuracies.append(compute_accuracy(outputs, labels) * 100)
+        labels = labels.to(torch.long)
+        # print(type(outputs))
         # print(labels)
+        # print("Output size:")
         losses.append(loss_fn(outputs, labels))
+        outputs = outputs.argmax(axis=1)
+        accuracies.append(compute_accuracy(outputs, labels) * 100)
     print(f"Results: Accuracy - {sum(accuracies) / len(accuracies)}%, Loss - {sum(losses) / len(losses)}")
         

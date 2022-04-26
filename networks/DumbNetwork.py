@@ -51,9 +51,10 @@ class CNN(nn.Module):
         self.pool2 = nn.MaxPool2d(2, 2)
         # output dim: 16x8x8
         self.flat = nn.Flatten()
-        self.d1 = nn.Linear(480000, 120)  # Behold, the DNN - Dumb Neural Network
+        self.d1 = nn.Linear(480000, 120)  # Behold, the CNN - Confused Neural Network
         self.d2 = nn.Linear(120, 84)
-        self.d3 = nn.Linear(84, 32)
+        self.d3 = nn.Linear(84, 5)
+        self.softmax = nn.Softmax(dim=1)
         
     def forward(self, x):
         x = self.pool1(F.relu(self.c1(x)))
@@ -61,5 +62,8 @@ class CNN(nn.Module):
         x = self.flat(x)
         x = F.relu(self.d1(x))
         x = F.relu(self.d2(x))
-        x = self.d3(x) # no need for softmax
+        x = self.d3(x) 
+        x = self.softmax(x)
+        # print(x)
+        # print("Size: ", x.size())
         return x

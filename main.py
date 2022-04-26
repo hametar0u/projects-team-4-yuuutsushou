@@ -4,9 +4,12 @@ import constants
 from data.StartingDataset import StartingDataset
 from networks.StartingNetwork import StartingNetwork
 from train_functions.starting_train import starting_train
-
+from networks.DumbNetwork import CNN
 
 def main():
+
+    network = CNN()
+
     # Get command line arguments
     hyperparameters = {"epochs": constants.EPOCHS, "batch_size": constants.BATCH_SIZE}
 

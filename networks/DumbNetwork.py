@@ -53,7 +53,7 @@ class CNN(nn.Module):
         self.flat = nn.Flatten()
         self.d1 = nn.Linear(480000, 120)  # Behold, the DNN - Dumb Neural Network
         self.d2 = nn.Linear(120, 84)
-        self.d3 = nn.Linear(84, 10)
+        self.d3 = nn.Linear(84, 32)
         
     def forward(self, x):
         x = self.pool1(F.relu(self.c1(x)))

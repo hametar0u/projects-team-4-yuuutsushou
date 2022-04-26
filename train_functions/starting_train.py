@@ -63,7 +63,8 @@ def starting_train(train_dataset, val_dataset, model, hyperparameters, n_eval):
                 # Compute training loss and accuracy.
                 # Log the results to Tensorboard. ???
                 training_accuracy = compute_accuracy(batch_outputs, batch_labels)
-                print(f"Results: Accuracy - {training_accuracy * 100}%, Loss - {sum(losses) / len(losses)}")
+                print()
+                print(f"Training Results: Accuracy - {training_accuracy * 100}%, Loss - {sum(losses) / len(losses)}")
 
                 # TODO:
                 # Compute validation loss and accuracy.
@@ -113,5 +114,5 @@ def evaluate(val_loader, model, loss_fn):
         losses.append(loss_fn(outputs, labels))
         outputs = outputs.argmax(axis=1)
         accuracies.append(compute_accuracy(outputs, labels) * 100)
-    print(f"Results: Accuracy - {sum(accuracies) / len(accuracies)}%, Loss - {sum(losses) / len(losses)}")
+    print(f"Evaluation Results: Accuracy - {sum(accuracies) / len(accuracies)}%, Loss - {sum(losses) / len(losses)}")
         

@@ -22,6 +22,7 @@ def main():
     # Initalize dataset and model. Then train the model!
     train_dataset = StartingDataset()
     val_dataset = StartingDataset(eval=True)
+    print(f"train size: {len(train_dataset)} - eval size: {len(val_dataset)}")
     model = StartingNetwork()
     starting_train(
         train_dataset=train_dataset,

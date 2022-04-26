@@ -49,7 +49,7 @@ def starting_train(train_dataset, val_dataset, model, hyperparameters, n_eval):
             # print(batch_labels)
             loss = loss_fn(batch_outputs, batch_labels.clone().detach())
             batch_outputs = batch_outputs.argmax(axis=1)
-            print(batch_outputs)
+            # print(batch_outputs)
             loss.backward()
             losses.append(loss)
             optimizer.step()

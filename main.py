@@ -21,7 +21,7 @@ def main():
 
     # Initalize dataset and model. Then train the model!
     train_dataset = StartingDataset()
-    val_dataset = StartingDataset()
+    val_dataset = StartingDataset(eval=True)
     model = StartingNetwork()
     starting_train(
         train_dataset=train_dataset,

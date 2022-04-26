@@ -11,7 +11,7 @@ class StartingNetwork(torch.nn.Module):
         super().__init__()
 
         self.conv1 = nn.Conv2d(3, 6, kernel_size=5, padding=2)
-        self.conv2 = nn.Conv2d(6, 10, kernel_zize=3, padding=1)
+        self.conv2 = nn.Conv2d(6, 10, kernel_size=3, padding=1)
 
         self.pool = nn.MaxPool2d(2, 2)
 

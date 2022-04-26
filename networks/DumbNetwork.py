@@ -42,16 +42,16 @@ class CNN(nn.Module):
     def __init__(self):
         super(CNN, self).__init__()
         # input dim: 3x32x32
-        self.c1 = nn.Conv2d(in_channels=3, out_channels=6, kernel_size=5, stride=1, padding=2)
+        self.c1 = nn.Conv2d(in_channels=3, out_channels=6, kernel_size=7, stride=5, padding=3)
         # output dim: 6x32x32
-        self.pool1 = nn.MaxPool2d(kernel_size=2, stride=2)
-        # output dim: 6x16x16
+        self.pool1 = nn.MaxPool2d(kernel_size=4, stride=4)
+        # output dim: 
         self.c2 = nn.Conv2d(6, 16, 5, 1, 2)
         # output dim: 16x16x16
         self.pool2 = nn.MaxPool2d(2, 2)
         # output dim: 16x8x8
         self.flat = nn.Flatten()
-        self.d1 = nn.Linear(480000, 120)  # Behold, the CNN - Confused Neural Network
+        self.d1 = nn.Linear(4800, 120)  # Behold, the CNN - Confused Neural Network
         self.d2 = nn.Linear(120, 84)
         self.d3 = nn.Linear(84, 5)
         self.softmax = nn.Softmax(dim=1)

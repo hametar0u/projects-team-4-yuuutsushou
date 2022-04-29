@@ -8,7 +8,8 @@ from networks.DumbNetwork import CNN
 
 def main():
 
-    network = CNN()
+    # network = CNN()
+    network = StartingNetwork()
 
     # Get command line arguments
     hyperparameters = {"epochs": constants.EPOCHS, "batch_size": constants.BATCH_SIZE}

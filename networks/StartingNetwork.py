@@ -19,7 +19,7 @@ class StartingNetwork(torch.nn.Module):
         #self.flatten = nn.Flatten()
         self.fc1 = nn.Linear(224 * 224 * 3, 256)
         self.fc2 = nn.Linear(256, 64)
-        self.fc3 = nn.Linear(64, 6)
+        self.fc3 = nn.Linear(64, 5)
 
 
     def forward(self, x):

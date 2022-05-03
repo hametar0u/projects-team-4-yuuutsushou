@@ -53,7 +53,7 @@ def starting_train(train_dataset, val_dataset, model, hyperparameters, n_eval):
             batch_outputs = batch_outputs.argmax(axis=1)
             # print(batch_outputs)
             loss.backward()
-            losses.append(loss)
+            losses.append(loss.item())
             optimizer.step()
 
 
@@ -113,7 +113,7 @@ def evaluate(val_loader, model, loss_fn):
         # print(type(outputs))
         # print(labels)
         # print("Output size:")
-        losses.append(loss_fn(outputs, labels))
+        losses.append(loss_fn(outputs, labels).item())
         outputs = outputs.argmax(axis=1)
         accuracies.append(compute_accuracy(outputs, labels) * 100)
     print(f"Evaluation Results: Accuracy - {sum(accuracies) / len(accuracies)}%, Loss - {sum(losses) / len(losses)}")

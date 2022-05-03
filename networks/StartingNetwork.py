@@ -17,8 +17,8 @@ class StartingNetwork(torch.nn.Module):
         self.pool = nn.MaxPool2d(2, 2)
 
 
-        #self.flatten = nn.Flatten()
-        self.fc1 = nn.Linear(224 * 224 * 3, 256)
+        self.flatten = nn.Flatten()
+        self.fc1 = nn.Linear(10 * 150 * 200, 256)
         self.fc2 = nn.Linear(256, 64)
         self.fc3 = nn.Linear(64, 5)
 
@@ -31,8 +31,8 @@ class StartingNetwork(torch.nn.Module):
         x = self.conv2(x)
         x = F.relu(x)
         x = self.pool(x)
-
-        x = torch.reshape(x, (-1, 224*224*3))
+        x = self.flatten(x)
+        # print(x.shape)
 
         x = self.fc1(x)
         x = F.relu(x)

@@ -2,6 +2,13 @@ import torch
 import torch.nn as nn
 import torch.nn.functional as F
 
+if torch.cuda.is_available():
+    device = torch.device('cuda:0')
+    print('Running on GPU')
+    print(torch.cuda.get_device_name(0))
+else:
+    device = torch.device('cpu')
+    print('Running on CPU')
 
 class StartingNetwork(torch.nn.Module):
     """

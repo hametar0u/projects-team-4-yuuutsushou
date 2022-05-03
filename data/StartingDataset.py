@@ -29,6 +29,7 @@ class StartingDataset(torch.utils.data.Dataset):
         label = elems[1]
         img = Image.open("/kaggle/input/cassava-leaf-disease-classification/train_images/" + file)
         tensor = self.tensor_converter(img)
+        img.close()
         return tensor, int(label.rstrip())
 
     def __len__(self):

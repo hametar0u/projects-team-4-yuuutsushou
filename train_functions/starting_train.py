@@ -1,3 +1,4 @@
+from cProfile import label
 import torch
 import torch.nn as nn
 import torch.optim as optim
@@ -35,6 +36,8 @@ def starting_train(train_dataset, val_dataset, model, hyperparameters, n_eval):
 
     # model = StartingNetwork()
     model = CNN()
+    device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
+    model.to(device)
 
     step = 0
     for epoch in range(epochs):
@@ -45,6 +48,7 @@ def starting_train(train_dataset, val_dataset, model, hyperparameters, n_eval):
         # Loop over each batch in the dataset
         for batch in tqdm(train_loader):
             batch_inputs, batch_labels = batch
+            batch_inputs, batch_labels = batch_inputs.to(device), batch_labels.to(device)
             optimizer.zero_grad() #PyTorch accumulates the gradients on subsequent backward passes. Because of this, when you start your training loop, ideally you should zero out the gradients so that you do the parameter update correctly. Otherwise, the gradient would be a combination of the old gradient, which you have already used to update your model parameters, and the newly-computed gradient
             batch_outputs = model(batch_inputs)
             # print(type(batch_labels))
@@ -105,8 +109,10 @@ def evaluate(val_loader, model, loss_fn):
     model.eval() #this disables gradient computation automagically
     accuracies = []
     losses = []
+    device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
     for batch in val_loader:
         images, labels = batch
+        images, labels = images.to(device), labels.to(device)
         outputs = model(images)  # axis does squishes the 2d tensor of probability vectors into 1d tensor
         outputs = outputs.to(torch.float)
         labels = labels.to(torch.long)

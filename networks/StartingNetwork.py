@@ -1,5 +1,6 @@
 import torch
 import torch.nn as nn
+import torch.nn.functional as F
 
 
 class StartingNetwork(torch.nn.Module):
@@ -24,11 +25,11 @@ class StartingNetwork(torch.nn.Module):
 
     def forward(self, x):
         x = self.conv1(x)
-        x = F.relu()
+        x = F.relu(x)
         x = self.pool(x)
 
         x = self.conv2(x)
-        x = F.relu()
+        x = F.relu(x)
         x = self.pool(x)
 
         x = torch.reshape(x, (-1, 224*224*3))

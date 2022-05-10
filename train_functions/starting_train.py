@@ -1,4 +1,4 @@
-from cProfile import label
+# from cProfile import label
 import torch
 import torch.nn as nn
 import torch.optim as optim
@@ -31,15 +31,16 @@ def starting_train(train_dataset, val_dataset, model, hyperparameters, n_eval):
     )
 
     # Initalize optimizer (for gradient descent) and loss function
-    optimizer = optim.Adam(model.parameters())
+    # optimizer = optim.Adam(model.parameters())
+    optimizer = optim.SGD(model.parameters(), 0.001)
     loss_fn = nn.CrossEntropyLoss()
 
     # model = StartingNetwork()
-    model = CNN()
+    # model = CNN()
     device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
     model.to(device)
 
-    step = 0
+    step = 1
     for epoch in range(epochs):
         print(f"Epoch {epoch + 1} of {epochs}")
 
@@ -106,21 +107,22 @@ def evaluate(val_loader, model, loss_fn):
 
     TODO!
     """
-    model.eval() #this disables gradient computation automagically
+    # model.eval() #this disables gradient computation automagically
     accuracies = []
     losses = []
     device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
-    for batch in val_loader:
-        images, labels = batch
-        images, labels = images.to(device), labels.to(device)
-        outputs = model(images)  # axis does squishes the 2d tensor of probability vectors into 1d tensor
-        outputs = outputs.to(torch.float)
-        labels = labels.to(torch.long)
-        # print(type(outputs))
-        # print(labels)
-        # print("Output size:")
-        losses.append(loss_fn(outputs, labels).item())
-        outputs = outputs.argmax(axis=1)
-        accuracies.append(compute_accuracy(outputs, labels) * 100)
+    with torch.no_grad():
+        for batch in val_loader:
+            images, labels = batch
+            images, labels = images.to(device), labels.to(device)
+            outputs = model(images)  # axis does squishes the 2d tensor of probability vectors into 1d tensor
+            outputs = outputs.to(torch.float)
+            labels = labels.to(torch.long)
+            # print(type(outputs))
+            # print(labels)
+            # print("Output size:")
+            losses.append(loss_fn(outputs, labels).item())
+            outputs = outputs.argmax(axis=1)
+            accuracies.append(compute_accuracy(outputs, labels) * 100)
     print(f"Evaluation Results: Accuracy - {sum(accuracies) / len(accuracies)}%, Loss - {sum(losses) / len(losses)}")
         

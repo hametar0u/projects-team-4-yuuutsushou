@@ -45,7 +45,8 @@ class AliceWithAGun(nn.Module):
         self.model_a = torch.hub.load('pytorch/vision:v0.9.0', 'resnet18', pretrained=True)
         self.model_a = torch.nn.Sequential(*(list(self.model_a.children())[:-1]))
         
-        self.d1 = nn.Linear(4800, 120)  # Behold, the CNN - Confused Neural Network
+        self.flatten = nn.Flatten()
+        self.d1 = nn.Linear(512, 120)  # Behold, the CNN - Confused Neural Network
         self.d2 = nn.Linear(120, 84)
         self.d3 = nn.Linear(84, 5)
         self.softmax = nn.Softmax(dim=1)
@@ -53,7 +54,7 @@ class AliceWithAGun(nn.Module):
     def forward(self, x):
         with torch.no_grad():
             features = self.model_a(x)
-        prediction = self.d1(features)
+        prediction = self.d1(self.flatten(features))
         prediction = self.d2(prediction)
         prediction = self.d3(prediction)
         # print(x)

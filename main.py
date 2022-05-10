@@ -4,12 +4,13 @@ import constants
 from data.StartingDataset import StartingDataset
 # from networks.StartingNetwork import StartingNetwork
 from train_functions.starting_train import starting_train
-from networks.DumbNetwork import CNN
+from networks.LessDumbNetwork import AliceWithAGun
+
 import torch
 
 def main():
 
-    model = CNN()
+    model = AliceWithAGun()
     # model = StartingNetwork()
 
     # Get command line arguments

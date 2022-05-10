@@ -17,7 +17,7 @@ class StartingDataset(torch.utils.data.Dataset):
         self.start_i = 0 if eval else 2000
         self.end_i = 2000 if eval else 10000
         self.tensor_converter = transforms.ToTensor()
-        with open("cassava-leaf-disease-classification/train.csv", "r") as f:
+        with open(DATA_PATH + "/train.csv", "r") as f:
             for line in f.readlines()[self.start_i + 1:self.end_i]:
                 self.images.append(line)
         
@@ -27,7 +27,7 @@ class StartingDataset(torch.utils.data.Dataset):
         elems = line.split(',')
         file = elems[0]
         label = elems[1]
-        img = Image.open("cassava-leaf-disease-classification/train_images/" + file)
+        img = Image.open(DATA_PATH + "/train_images/" + file)
         tensor = self.tensor_converter(img)
         img.close()
         return tensor, int(label.rstrip())

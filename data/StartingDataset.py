@@ -1,11 +1,20 @@
 from random import shuffle
 import torch
 from torchvision import transforms
-from PIL import Image
+from PIL import Image, ImageEnhance
 
+LOCAL = False
+DATA_PATH = "cassava-leaf-disease-classification" if LOCAL else "/kaggle/input/cassava-leaf-disease-classification"
 
-DATA_PATH = "/kaggle/input/cassava-leaf-disease-classification"
-# DATA_PATH = "cassava-leaf-disease-classification"
+transform_list = [
+    transforms.RandomRotation(100),
+    transforms.ColorJitter(brightness=1, contrast=0, saturation=0, hue=0),
+    transforms.RandomHorizontalFlip(p=1),
+    transforms.GaussianBlur(3),
+    transforms.RandomResizedCrop(size=(800,600))
+]
+
+transform = transforms.RandomChoice(transforms=transform_list)
 
 class StartingDataset(torch.utils.data.Dataset):
     """
@@ -21,7 +30,6 @@ class StartingDataset(torch.utils.data.Dataset):
             for line in f.readlines()[self.start_i + 1:self.end_i]:
                 self.images.append(line)
         
-
     def __getitem__(self, index):
         line = self.images[index]
         elems = line.split(',')

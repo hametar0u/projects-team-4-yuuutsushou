@@ -48,6 +48,13 @@ def starting_train(train_dataset, val_dataset, model, hyperparameters, n_eval):
 
     for epoch in range(epochs):
         print(f"Epoch {epoch + 1} of {epochs}")
+        if epoch == 0:
+            checkpoint = torch.load(constants.SAVE_PATH)
+            model.load_state_dict(checkpoint['model_state_dict'])
+            optimizer.load_state_dict(checkpoint['optimizer_state_dict'])
+            epoch = checkpoint['epoch']
+            loss = checkpoint['loss']
+            print(f"loss: {loss}")
 
         losses = []
         model.train() #tells your model that you are training the model
@@ -60,13 +67,6 @@ def starting_train(train_dataset, val_dataset, model, hyperparameters, n_eval):
             # print(type(batch_labels))
             # print(batch_labels)
             loss = loss_fn(batch_outputs, batch_labels.clone().detach())
-            torch.save({
-                        'epoch': epoch,
-                        'model_state_dict': model.state_dict(),
-                        'optimizer_state_dict': optimizer.state_dict(),
-                        'loss': loss,
-                    }, constants.SAVE_PATH)
-
 
             batch_outputs = batch_outputs.argmax(axis=1)
             # print(batch_outputs)

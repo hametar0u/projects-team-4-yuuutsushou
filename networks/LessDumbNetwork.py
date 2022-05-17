@@ -4,6 +4,7 @@ import torchvision
 import torch.nn as nn
 import torch.nn.functional as F
 import data.StartingDataset
+import constants
 
 # the whole point of pytorch is to be able to easily train models on GPU's and TPU's
 # if you have a dedicated GPU, you can download CUDA from Nvidia toolkits
@@ -44,6 +45,7 @@ class AliceWithAGun(nn.Module):
         # input dim: 3x32x32
         self.model_a = torch.hub.load('pytorch/vision:v0.9.0', 'resnet18', pretrained=True)
         self.model_a = torch.nn.Sequential(*(list(self.model_a.children())[:-1]))
+        self.dropout = torch.nn.Dropout(constants.DROPOUT_RATE)
         
         self.flatten = nn.Flatten()
         self.d1 = nn.Linear(512, 120)  # Behold, the CNN - Confused Neural Network
@@ -54,6 +56,7 @@ class AliceWithAGun(nn.Module):
     def forward(self, x):
         with torch.no_grad():
             features = self.model_a(x)
+            features = self.dropout(features)
         prediction = self.d1(self.flatten(features))
         prediction = self.d2(prediction)
         prediction = self.d3(prediction)

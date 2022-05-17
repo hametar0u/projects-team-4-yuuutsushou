@@ -8,6 +8,10 @@ from networks.LessDumbNetwork import AliceWithAGun
 
 import torch
 
+#TODO:
+#dropout regularization
+#unfreezing resnet
+
 def main():
 
     model = AliceWithAGun()

@@ -4,6 +4,7 @@ import torch.nn as nn
 import torch.optim as optim
 from tqdm import tqdm
 from networks.DumbNetwork import CNN
+import constants
 # from networks.StartingNetwork import StartingNetwork
 
 
@@ -41,7 +42,18 @@ def starting_train(train_dataset, val_dataset, model, hyperparameters, n_eval):
     model.to(device)
 
     step = 1
+
+    #determine best accuracy
+    bestAcc = 0
+
     for epoch in range(epochs):
+        if epoch == 0:
+            checkpoint = torch.load(constants.SAVE_PATH)
+            model.load_state_dict(checkpoint['model_state_dict'])
+            optimizer.load_state_dict(checkpoint['optimizer_state_dict'])
+            epoch = checkpoint['epoch']
+            loss = checkpoint['loss']
+            print(f"loss: {loss}")
         print(f"Epoch {epoch + 1} of {epochs}")
 
         losses = []
@@ -55,6 +67,7 @@ def starting_train(train_dataset, val_dataset, model, hyperparameters, n_eval):
             # print(type(batch_labels))
             # print(batch_labels)
             loss = loss_fn(batch_outputs, batch_labels.clone().detach())
+
             batch_outputs = batch_outputs.argmax(axis=1)
             # print(batch_outputs)
             loss.backward()
@@ -77,7 +90,15 @@ def starting_train(train_dataset, val_dataset, model, hyperparameters, n_eval):
                 # Compute validation loss and accuracy.
                 # Log the results to Tensorboard.
                 # Don't forget to turn off gradient calculations!
-                evaluate(val_loader, model, loss_fn)
+                (evalAcc, evalLoss) = evaluate(val_loader, model, loss_fn)
+                print(f"Evaluation Results: Accuracy - {evalAcc}%, Loss - {evalLoss}")
+                if evalAcc > bestAcc:
+                    torch.save({
+                        'epoch': epoch,
+                        'model_state_dict': model.state_dict(),
+                        'optimizer_state_dict': optimizer.state_dict(),
+                        'loss': evalLoss,
+                    }, constants.SAVE_PATH)
 
             step += 1
 
@@ -124,5 +145,9 @@ def evaluate(val_loader, model, loss_fn):
             losses.append(loss_fn(outputs, labels).item())
             outputs = outputs.argmax(axis=1)
             accuracies.append(compute_accuracy(outputs, labels) * 100)
-    print(f"Evaluation Results: Accuracy - {sum(accuracies) / len(accuracies)}%, Loss - {sum(losses) / len(losses)}")
+
+    # print(f"Evaluation Results: Accuracy - {sum(accuracies) / len(accuracies)}%, Loss - {sum(losses) / len(losses)}")
+    avgAcc = sum(accuracies) / len(accuracies)
+    avgLoss = sum(losses) / len(losses)
+    return (avgAcc, avgLoss)
         

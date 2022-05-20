@@ -47,7 +47,6 @@ def starting_train(train_dataset, val_dataset, model, hyperparameters, n_eval):
     bestAcc = 0
 
     for epoch in range(epochs):
-        print(f"Epoch {epoch + 1} of {epochs}")
         if epoch == 0:
             checkpoint = torch.load(constants.SAVE_PATH)
             model.load_state_dict(checkpoint['model_state_dict'])
@@ -55,6 +54,7 @@ def starting_train(train_dataset, val_dataset, model, hyperparameters, n_eval):
             epoch = checkpoint['epoch']
             loss = checkpoint['loss']
             print(f"loss: {loss}")
+        print(f"Epoch {epoch + 1} of {epochs}")
 
         losses = []
         model.train() #tells your model that you are training the model

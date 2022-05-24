@@ -1,4 +1,4 @@
-from random import shuffle
+from random import shuffle, randint
 import torch
 from torchvision import transforms
 from PIL import Image, ImageEnhance
@@ -39,7 +39,9 @@ class StartingDataset(torch.utils.data.Dataset):
         label = elems[1]
         img = Image.open(DATA_PATH + "/train_images/" + file)
         if label != 3 and not eval:
-            img = transform(img)
+            num = randint(1,3)
+            if num != 3:
+                img = transform(img)
 
         tensor = self.tensor_converter(img)
         img.close()

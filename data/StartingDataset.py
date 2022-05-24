@@ -28,6 +28,7 @@ class StartingDataset(torch.utils.data.Dataset):
         self.tensor_converter = transforms.ToTensor()
         with open(DATA_PATH + "/train.csv", "r") as f:
             for line in f.readlines()[self.start_i + 1:self.end_i]:
+            # for line in f.readlines()[self.start_i + 1:]:
                 self.images.append(line)
         
     def __getitem__(self, index):
@@ -36,6 +37,8 @@ class StartingDataset(torch.utils.data.Dataset):
         file = elems[0]
         label = elems[1]
         img = Image.open(DATA_PATH + "/train_images/" + file)
+        if label != 3:
+            img = transform(img)
         tensor = self.tensor_converter(img)
         img.close()
         return tensor, int(label.rstrip())

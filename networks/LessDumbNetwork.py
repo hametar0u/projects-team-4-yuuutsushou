@@ -49,7 +49,10 @@ class AliceWithAGun(nn.Module):
         
         self.flatten = nn.Flatten()
         self.d1 = nn.Linear(512, 120)  # Behold, the CNN - Confused Neural Network
-        self.d2 = nn.Linear(120, 84)
+        #reLU
+        #dropout
+        #batchnorm1d
+        # self.d2 = nn.Linear(120, 84)
         self.d3 = nn.Linear(84, 5)
         self.softmax = nn.Softmax(dim=1)
         

@@ -38,7 +38,7 @@ class StartingDataset(torch.utils.data.Dataset):
         file = elems[0]
         label = elems[1]
         img = Image.open(DATA_PATH + "/train_images/" + file)
-        if label != 3:
+        if label != 3 and not eval:
             img = transform(img)
 
         tensor = self.tensor_converter(img)

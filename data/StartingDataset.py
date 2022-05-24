@@ -19,13 +19,13 @@ transform = transforms.RandomChoice(transforms=transform_list)
 
 class StartingDataset(torch.utils.data.Dataset):
     """
-    Dataset that contains 100000 3x224x224 black images (all zeros).
+    Dataset that contains 21.4k 3x224x224 black images (all zeros).
     """
 
     def __init__(self, eval=False):
         self.images = []
         self.start_i = 0 if eval else 2000
-        self.end_i = 2000 if eval else 10000
+        self.end_i = 2000 if eval else 100000
         self.tensor_converter = transforms.ToTensor()
         with open(DATA_PATH + "/train.csv", "r") as f:
             for line in f.readlines()[self.start_i + 1:self.end_i]:
@@ -38,10 +38,10 @@ class StartingDataset(torch.utils.data.Dataset):
         file = elems[0]
         label = elems[1]
         img = Image.open(DATA_PATH + "/train_images/" + file)
-        if label != 3 and not eval:
-            num = randint(1,3)
-            if num != 3:
-                img = transform(img)
+        # if label != 3 and not eval:
+        #     num = randint(1,3)
+        #     if num != 3:
+        #         img = transform(img)
 
         tensor = self.tensor_converter(img)
         img.close()

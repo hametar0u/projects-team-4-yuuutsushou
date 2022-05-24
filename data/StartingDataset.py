@@ -25,10 +25,10 @@ class StartingDataset(torch.utils.data.Dataset):
     def __init__(self, eval=False):
         self.images = []
         self.start_i = 0 if eval else 2000
-        self.end_i = 2000 if eval else 10000
+        self.end_i = 2000 if eval else 100000
         self.tensor_converter = transforms.ToTensor()
         with open(DATA_PATH + "/train.csv", "r") as f:
-            for line in f.readlines()[self.start_i + 1:self.end_i]:
+            for line in f.readlines()[self.start_i + 1: self.end_i]:
             # for line in f.readlines()[self.start_i + 1:]:
                 self.images.append(line)
         

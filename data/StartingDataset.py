@@ -7,11 +7,12 @@ LOCAL = False
 DATA_PATH = "cassava-leaf-disease-classification" if LOCAL else "/kaggle/input/cassava-leaf-disease-classification"
 
 transform_list = [
-    transforms.RandomRotation(100),
+    # transforms.RandomRotation(100),
     transforms.ColorJitter(brightness=1, contrast=0, saturation=0, hue=0),
+    transforms.ColorJitter(brightness=0, contrast=1, saturation=0, hue=0),
     transforms.RandomHorizontalFlip(p=1),
     transforms.GaussianBlur(3),
-    transforms.RandomResizedCrop(size=(800,600))
+    transforms.RandomResizedCrop(size=(600,800))
 ]
 
 transform = transforms.RandomChoice(transforms=transform_list)

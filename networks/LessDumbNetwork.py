@@ -51,12 +51,12 @@ class AliceWithAGun(nn.Module):
         #reLU
         #dropout
         #batchnorm1d
-        # self.d2 = nn.Linear(120, 84)
+        self.d2 = nn.Linear(120, 84)
         self.d3 = nn.Linear(84, 5)
         self.softmax = nn.Softmax(dim=1)
         
     def forward(self, x):
-        features
+
         with torch.no_grad():
             features = self.model_a(x)
         prediction = self.d1(self.flatten(features))

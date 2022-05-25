@@ -3,7 +3,7 @@ import torch
 from torchvision import transforms
 from PIL import Image
 
-LOCAL = True
+LOCAL = False
 DATA_PATH = "cassava-leaf-disease-classification" if LOCAL else "/kaggle/input/cassava-leaf-disease-classification"
 
 transform_list = [

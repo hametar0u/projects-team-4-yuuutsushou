@@ -32,8 +32,8 @@ def starting_train(train_dataset, val_dataset, model, hyperparameters, n_eval):
     )
 
     # Initalize optimizer (for gradient descent) and loss function
-    # optimizer = optim.Adam(model.parameters())
-    optimizer = optim.SGD(model.parameters(), 0.001)
+    optimizer = optim.Adam(model.parameters())
+    # optimizer = optim.SGD(model.parameters(), 0.001)
     loss_fn = nn.CrossEntropyLoss()
 
     # model = StartingNetwork()

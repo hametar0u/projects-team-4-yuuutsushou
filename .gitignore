@@ -5,3 +5,5 @@ training_summaries
 /cassava-leaf-disease-classification
 /env
 /.idea
+*.pt
+models/modelFinalHopefully.pt

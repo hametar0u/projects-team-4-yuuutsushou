@@ -23,12 +23,21 @@ def starting_train(train_dataset, val_dataset, model, hyperparameters, n_eval):
     # Get keyword arguments
     batch_size, epochs = hyperparameters["batch_size"], hyperparameters["epochs"]
 
+    class_counts = constants.CLASS_SAMPLE_COUNT
+    num_samples = len(train_dataset) # train size
+    # Compute samples weight (each sample should get its own weight)
+    labels = train_dataset.labels #corresponding labels of samples
+
+    class_weights = [num_samples/class_counts[i] for i in range(len(class_counts))]
+    weights = [class_weights[labels[i]] for i in range(int(num_samples))]
+    sampler = torch.utils.data.sampler.WeightedRandomSampler(torch.DoubleTensor(weights), int(num_samples))
+
     # Initialize dataloaders
     train_loader = torch.utils.data.DataLoader(
-        train_dataset, batch_size=batch_size, shuffle=True
+        train_dataset, batch_size=batch_size, sampler=sampler
     )
     val_loader = torch.utils.data.DataLoader(
-        val_dataset, batch_size=batch_size, shuffle=True
+        val_dataset, batch_size=batch_size, shuffle=False
     )
 
     # Initalize optimizer (for gradient descent) and loss function

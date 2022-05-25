@@ -3,13 +3,13 @@ import torch
 from torchvision import transforms
 from PIL import Image
 
-LOCAL = False
+LOCAL = True
 DATA_PATH = "cassava-leaf-disease-classification" if LOCAL else "/kaggle/input/cassava-leaf-disease-classification"
 
 transform_list = [
     # transforms.RandomRotation(100),
     transforms.ColorJitter(brightness=1, contrast=0, saturation=0, hue=0),
-    transforms.ColorJitter(brightness=0, contrast=1, saturation=0, hue=0),
+    transforms.RandomRotation((90, 90)),
     transforms.RandomHorizontalFlip(p=1),
     transforms.GaussianBlur(3),
     transforms.RandomResizedCrop(size=(600,800))
@@ -24,6 +24,7 @@ class StartingDataset(torch.utils.data.Dataset):
 
     def __init__(self, eval=False):
         self.images = []
+        self.labels = []
         self.start_i = 0 if eval else 2000
         self.end_i = 2000 if eval else 100000
         self.tensor_converter = transforms.ToTensor()
@@ -32,6 +33,7 @@ class StartingDataset(torch.utils.data.Dataset):
             for line in f.readlines()[self.start_i + 1:self.end_i]:
             # for line in f.readlines()[self.start_i + 1:]:
                 self.images.append(line)
+                self.labels.append(int(line.split(',')[1]))
         
 
     def __getitem__(self, index):
@@ -44,7 +46,7 @@ class StartingDataset(torch.utils.data.Dataset):
         img = self.tensor_converter(img)
         img = torch.reshape(img, (3, 448, 448))
         if not eval:
-            num = randint(1,6)
+            num = randint(1,5)
             if num != 3:
                 img = transform(img)
 

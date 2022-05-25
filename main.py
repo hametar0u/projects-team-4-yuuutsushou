@@ -5,6 +5,7 @@ from data.StartingDataset import StartingDataset
 # from networks.StartingNetwork import StartingNetwork
 from train_functions.starting_train import starting_train
 from networks.LessDumbNetwork import AliceWithAGun
+from networks.TotallyMyNetwork import TotallyMyNetwork
 
 import torch
 
@@ -14,7 +15,7 @@ import torch
 
 def main():
 
-    model = AliceWithAGun()
+    model = TotallyMyNetwork()
     # model = StartingNetwork()
 
     # Get command line arguments

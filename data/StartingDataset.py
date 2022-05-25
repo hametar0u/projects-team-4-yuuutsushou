@@ -8,7 +8,7 @@ DATA_PATH = "cassava-leaf-disease-classification" if LOCAL else "/kaggle/input/c
 
 transform_list = [
     # transforms.RandomRotation(100),
-    transforms.ColorJitter(brightness=1, contrast=0, saturation=0, hue=0),
+    transforms.RandomVerticalFlip(p=1),
     transforms.RandomRotation((90, 90)),
     transforms.RandomHorizontalFlip(p=1),
     transforms.GaussianBlur(3),

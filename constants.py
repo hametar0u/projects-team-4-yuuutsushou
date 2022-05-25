@@ -1,5 +1,4 @@
 EPOCHS = 10
 BATCH_SIZE = 32
-CLASS_SAMPLE_COUNT = [997, 1973, 2166, 11923, 2334]
-N_EVAL = 607
-SAVE_PATH = "models/modelFinalHopefully2.pt"
+N_EVAL = 250
+SAVE_PATH = "models/modelFinalHopefully.pt"

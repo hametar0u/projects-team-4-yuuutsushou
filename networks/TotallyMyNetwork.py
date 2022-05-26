@@ -3,7 +3,7 @@ import torch.nn as nn
 
 
 class TotallyMyNetwork(torch.nn.Module):
-    def __init__(self, dropout_pct=0, model_name='resnet18'):
+    def __init__(self, dropout_pct=0, model_name='resnet34'):
         super().__init__()
         self.conv = nn.Conv2d(3, 3, kernel_size=7, stride=2, padding=3)
         tempmodel = torch.hub.load('pytorch/vision:v0.9.0', model_name, pretrained=True)
